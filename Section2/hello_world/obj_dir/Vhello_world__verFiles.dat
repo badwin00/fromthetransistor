@@ -1,0 +1,13 @@
+# DESCRIPTION: Verilator output: Timestamp data for --skip-identical.  Delete at will.
+C "-Wall --cc --build --exe hello_sim.cpp hello_world.v"
+S  10434120 13632149  1625018044   381143980  1625018044   381143980 "/home/griffith/Tools/verilator//bin/verilator_bin"
+S       578 13898989  1625198330   176989169  1625198330   148989264 "hello_world.v"
+T      5565 13897856  1625198456   988676904  1625198456   988676904 "obj_dir/Vhello_world.cpp"
+T      2389 13897854  1625198456   988676904  1625198456   988676904 "obj_dir/Vhello_world.h"
+T      1825 13897863  1625198456   988676904  1625198456   988676904 "obj_dir/Vhello_world.mk"
+T      2106 13897855  1625198456   988676904  1625198456   988676904 "obj_dir/Vhello_world__Slow.cpp"
+T       791 13897848  1625198456   988676904  1625198456   988676904 "obj_dir/Vhello_world__Syms.cpp"
+T       859 13897853  1625198456   988676904  1625198456   988676904 "obj_dir/Vhello_world__Syms.h"
+T       341 13897884  1625198456   988676904  1625198456   988676904 "obj_dir/Vhello_world__ver.d"
+T         0        0  1625198456   988676904  1625198456   988676904 "obj_dir/Vhello_world__verFiles.dat"
+T      1612 13897862  1625198456   988676904  1625198456   988676904 "obj_dir/Vhello_world_classes.mk"
