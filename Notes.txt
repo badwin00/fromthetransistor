@@ -1,0 +1,9 @@
+Section 1:
+  Transistors- greatest invention of the 21st century, can amplify a signal in a circuit or switch current on/off. Can be used to create logic gates.
+  Integrated Circuit- a boat load of transistors baked onto a cheapter-to-make chip. Also a big deal.
+  FPGA- Like an integrated circuit but mutable after manufacturing, logic gates can be changed using a hardware description language (Verilog) so we can make the hardware do whatever we want. These reprogrammable logic gates are called logic blocks, and they can even be repurposed into memory. Very cool stuff.
+  LUT- LookUp Table. A block of SRAM indexed w/ a multiplexor by the given inputs to retrieve an output. This can be used to simulate logic gates where the truth tables therein can be modified at will.
+
+Section 2:
+  UART- Universal Asynchronous Receiver-Transmitter. Device used for serial communication. Implementation details are surprisingly well documented on Wikipedia.
+  MMIO- Memory-Mapped IO. Memory and I/O devices are mapped to the same address space. This allows the CPU to access both using the same instructions with no extra steps necessary. This requires "in" and "out" instructions for moving around data in memory.
