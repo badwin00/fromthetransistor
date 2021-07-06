@@ -1,0 +1,7 @@
+The purpose of the UART is to send and receive serial data. In our case, it will receive the data from our handy c++ simulation wrapper we user for Verilator. A good goal for now is to send some data to our UART, have it decode and print the result, then send it back.
+
+The details of how to implement encoding and decoding are surprisingly well documented on Wikipedia:
+https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter#Transmitting_and_receiving_serial_data 
+
+But the general idea is that the UART receives a low start bit, and then the data bits, and finally a parity bit / high end bit. We'll keep the data bits limited to 8.
+While idling the UART stays high-voltage.

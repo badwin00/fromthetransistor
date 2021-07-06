@@ -7,3 +7,4 @@ Section 1:
 Section 2:
   UART- Universal Asynchronous Receiver-Transmitter. Device used for serial communication. Implementation details are surprisingly well documented on Wikipedia.
   MMIO- Memory-Mapped IO. Memory and I/O devices are mapped to the same address space. This allows the CPU to access both using the same instructions with no extra steps necessary. This requires "in" and "out" instructions for moving around data in memory.
+  Bit-Banging- data transmissions that substitutes dedicated hardwire like a UART for software. The processes then manually must read and set the status of I/O pins. Pros and cons.

@@ -1,0 +1,27 @@
+// Verilated -*- C++ -*-
+// DESCRIPTION: Verilator output: Symbol table implementation internals
+
+#include "Vreceiver__Syms.h"
+#include "Vreceiver.h"
+
+// FUNCTIONS
+Vreceiver__Syms::~Vreceiver__Syms()
+{
+}
+
+Vreceiver__Syms::Vreceiver__Syms(VerilatedContext* contextp, Vreceiver* topp, const char* namep)
+    // Setup locals
+    : VerilatedSyms{contextp}
+    , __Vm_namep(namep)
+    , __Vm_didInit(false)
+    // Setup submodule names
+{
+    // Pointer to top level
+    TOPp = topp;
+    // Setup each module's pointers to their submodules
+    // Configure time unit / time precision
+    _vm_contextp__->timeunit(-12);
+    _vm_contextp__->timeprecision(-12);
+    // Setup each module's pointer back to symbol table (for public functions)
+    TOPp->__Vconfigure(this, true);
+}

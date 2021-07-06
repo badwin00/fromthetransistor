@@ -24,5 +24,4 @@ begin : COUNTER
     counter_out <= counter_out + 1;
   end
 end
-
 endmodule
