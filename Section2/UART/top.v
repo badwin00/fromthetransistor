@@ -1,20 +1,30 @@
 `include "receiver.v"
-module top;
+module top(serial,clk,trans);
+//input
+input serial;
+input clk;
 
-reg [0:0] serial;
-reg [0:0] trans;
+//output
+output trans;
 
-receiver rec(serial,trans);
+//input port
+wire clk;
+reg serial; //pretty sure this is 1 bit wide?
+
+//output port
+reg [7:0] trans;
+
+receiver rec(serial, clk, trans);
 
 initial begin
-  $display("initial serial: %b",rec.serial);
-  serial = 1;
-  $display("post serial: %b",rec.serial);
-  serial = 1;
-  $display("post serial: %b",rec.serial);
-  serial = 1;
-  $display("post serial: %b",rec.serial);
-  serial = 0;
-  $display("post serial: %b",rec.serial);
+  $display("Top initiated!");
+  //serial = 1;
 end
+
+/*
+always @ (posedge clk) begin
+  $display("serial flip!");
+  serial = ~serial;
+end
+*/
 endmodule
