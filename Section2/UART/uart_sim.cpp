@@ -9,10 +9,9 @@ double sc_time_stamp() { // Called by $time in Verilog
   return main_time;
 }
 
-void test(Vtop *top);
+int test(Vtop *top);
 
 int main(int argc, char** argv){
-  //Verilated::commandArgs(argc, argv); //remember args
   VerilatedContext* contextp = new VerilatedContext;
   contextp->commandArgs(argc, argv);
 
@@ -20,21 +19,32 @@ int main(int argc, char** argv){
 
   //set inputs
   top->clk = main_time;
-  //test(top);
 
-/*
-  while (!contextp->gotFinish()) {
-    top->clk++;
-    top->serial = 0;
-    top->eval();
-  }
-*/
   //             s d d d d d d d d p s s 
-  char bits[] = {1,0,0,1,0,0,1,0,0,0,1,1};
+  //char bits[] = {1,0,0,1,0,0,1,0,0,0,1,1};
 
   // trigger initial block of top.v
   top->eval();
   top->clk++; 
+  test(top);
+
+/*
+  int x;
+  for(x=0;x<12;x++){
+    printf("x: %d given bit: %d\n",x,bits[x]);
+    top->clk++;
+    top->serial = bits[x];
+    top->eval();
+  }
+*/
+
+  top->final(); //done
+  delete top;
+}
+
+int test(Vtop *top){
+  //             s d d d d d d d d p s s 
+  char bits[] = {1,0,0,1,0,0,1,0,0,0,1,1};
 
   int x;
   for(x=0;x<12;x++){
@@ -43,16 +53,8 @@ int main(int argc, char** argv){
     top->serial = bits[x];
     top->eval();
   }
-
-  top->final(); //done
-  delete top;
+  printf("Test complete!\n");
+  printf("Trans: %u\n",top->trans);
+  printf("Parity: %u\n",top->parity);
+  return 1;
 }
-
-/*
-void test(Vtop *top){
-  vluint8_t test = 1;
-  //top->serial = test;
-  top->clk++;
-  top->eval();
-}
-*/
