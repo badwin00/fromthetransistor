@@ -20,7 +20,6 @@ receiver rec(serial, clk, trans, parity);
 
 initial begin
   $display("Top initiated!");
-  //serial = 1;
 end
 
 endmodule

@@ -3,5 +3,11 @@ The purpose of the UART is to send and receive serial data. In our case, it will
 The details of how to implement encoding and decoding are surprisingly well documented on Wikipedia:
 https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter#Transmitting_and_receiving_serial_data 
 
-But the general idea is that the UART receives a low start bit, and then the data bits, and finally a parity bit / high end bit. We'll keep the data bits limited to 8.
+Using wikipedia was a terrible idea, here's a better source for more details:
+https://www.circuitbasics.com/basics-uart-communication/
+
+An intimidating example: 
+https://www.asic-world.com/examples/verilog/uart.html
+
+But the general idea is that the UART receives a low start bit, and then the data bits, and finally a parity bit followed by two high end bit. We'll keep the data bits limited to 8.
 While idling the UART stays high-voltage.

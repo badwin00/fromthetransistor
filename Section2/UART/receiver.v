@@ -7,7 +7,6 @@ input clk;
 output trans;
 output parity;
 
-
 //input ports
 wire serial; 
 wire clk;
@@ -28,7 +27,7 @@ initial begin
   hold = 0;
   receiving = 0;
   write_count = 0;
-  parity = 0; // 0 is even 1 is odd
+  parity = 0;
 end
 
 always @ (posedge clk) 
@@ -40,7 +39,7 @@ begin : RECEIVE
   else if (read_count < 8 && receiving == 1) begin // pull data bits
     $display("received data bit %b",serial);
     read_count <= read_count + 1;
-    trans[write_count] <= serial;
+    trans[write_count] <= serial; // write to output little-endian
     write_count <= write_count + 1;
 
     //toggle parity bit every time a '1' is received
@@ -48,9 +47,13 @@ begin : RECEIVE
       parity <= ~parity;
     end
   end
-  else if (read_count == 8) begin // stop when received 8 data bits
+  else if (read_count == 8) begin // after receiving 8 bits, check for valid parity bit
     $display("parity received: %b",serial);
-    parity <= serial;
+
+    if(serial != parity) begin
+      $display("Incorrect parity bit received! Received: %b | Expected: %b",parity,serial);
+      receiving <= 0;
+    end
     read_count <= read_count + 1;
   end
   else if (read_count == 9 || read_count == 10) begin //receive both positive start bits
