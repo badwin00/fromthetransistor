@@ -34,7 +34,7 @@ int test(Vtop *top){
   // d = data bits
   // p = parity bit
   //             s d d d d d d d d p s s 
-  char bits[] = {1,0,0,0,0,0,0,0,1,0,1,1};
+  char bits[] = {1,0,0,0,0,0,0,0,1,1,1,1};
 
   int x;
   for(x=0;x<12;x++){

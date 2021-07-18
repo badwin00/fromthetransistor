@@ -32,44 +32,54 @@ end
 
 always @ (posedge clk) 
 begin : RECEIVE
-  if(serial == 1 && receiving == 0) begin // check for start bit
+  if(receiving) begin
+    // read all 8 data bits
+    if(read_count < 8) begin
+      $display("received data bit %b",serial);
+      read_count <= read_count + 1;
+      trans[write_count] <= serial; // write to output little-endian
+      write_count <= write_count + 1;
+
+      //toggle parity bit every time a '1' is received
+      if(serial == 1) begin
+        parity <= ~parity;
+      end
+    end
+
+    // after receiving 8 bits, check for valid parity bit
+    else if (read_count == 8) begin 
+      $display("parity received: %b",serial);
+      if(serial != parity) begin
+        $display("Incorrect parity bit received! Received: %b | Expected: %b",serial,parity);
+        receiving <= 0;
+      end
+      read_count <= read_count + 1;
+    end
+
+    //check for both positive end bits
+    else if (read_count == 9 || read_count == 10) begin 
+      if (serial == 1) begin
+        stopped <= stopped + 1;
+        $display("received stop %b",serial);
+        if(stopped == 2) begin
+          receiving <= 0;
+          $display("all data successfully read, stopped.");
+        end
+      end
+      //stop signal came back negative
+      else begin
+        receiving <= 0;
+        $display("received incorrect stop signal");
+      end
+    end
+  end
+
+  //check for start bit
+  else if(serial == 1) begin
     $display("received start bit!");
     receiving <= 1;
   end
-  else if (read_count < 8 && receiving == 1) begin // pull data bits
-    $display("received data bit %b",serial);
-    read_count <= read_count + 1;
-    trans[write_count] <= serial; // write to output little-endian
-    write_count <= write_count + 1;
-
-    //toggle parity bit every time a '1' is received
-    if(serial == 1) begin
-      parity <= ~parity;
-    end
-  end
-  else if (read_count == 8) begin // after receiving 8 bits, check for valid parity bit
-    $display("parity received: %b",serial);
-
-    if(serial != parity) begin
-      $display("Incorrect parity bit received! Received: %b | Expected: %b",parity,serial);
-      receiving <= 0;
-    end
-    read_count <= read_count + 1;
-  end
-  else if (read_count == 9 || read_count == 10) begin //receive both positive start bits
-    if (serial == 1) begin
-      stopped <= stopped + 1;
-      $display("received stop %b",serial);
-      if(stopped == 2) begin
-        receiving <= 0;
-        $display("all data successfully read, stopped.");
-      end
-    end
-    else begin
-      receiving <= 0;
-      $display("received incorrect stop signal"); //stop signal came back negative
-    end
-  end
+  //something has gone wrong
   else begin
     receiving <= 0;
     $display("Unable to handle signal"); //something has gone horribly wrong
