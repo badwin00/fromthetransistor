@@ -35,6 +35,7 @@ int test(Vtop *top){
   // p = parity bit
   //             s d d d d d d d d p s s 
   char bits[] = {1,0,0,0,0,0,0,0,1,1,1,1};
+  int expected_data = 128;
 
   int x;
   for(x=0;x<12;x++){
@@ -44,8 +45,9 @@ int test(Vtop *top){
     top->eval();
   }
 
-  printf("Test complete!\n");
-  printf("Trans: %u\n",top->trans);
-  printf("Parity: %u\n",top->parity);
+  //check for expected values
+  assert(top->trans == expected_data);
+  printf("Test 1 complete!\n");
+  printf("Data: %u\n",top->trans);
   return 1;
 }

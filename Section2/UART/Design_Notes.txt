@@ -3,7 +3,7 @@ The purpose of the UART is to send and receive serial data. In our case, it will
 The details of how to implement encoding and decoding are surprisingly well documented on Wikipedia:
 https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter#Transmitting_and_receiving_serial_data 
 
-Using wikipedia was a terrible idea, here's a better source for more details:
+Here's a better source for more details:
 https://www.circuitbasics.com/basics-uart-communication/
 
 An intimidating example: 
