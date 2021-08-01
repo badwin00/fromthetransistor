@@ -2,22 +2,22 @@
 `define TX_DISABLE 0
 `define TX_FINISHED 2
 `define TX_ERROR -1
-module receiver(serial, clk, trans, parity, tx_enable);
+module receiver(rx_in, clk, rx_out, parity, tx_enable);
 //inputs
-input serial;
+input rx_in;
 input clk;
 
 //outputs
-output trans;
+output rx_out;
 output parity;
 output tx_enable;
 
 //input ports
-wire serial; 
+wire rx_in; 
 wire clk;
 
 //output ports
-reg [7:0] trans; //8 bit wide output
+reg [7:0] rx_out; //8 bit wide output
 reg [0:0] parity;
 reg [1:0] tx_enable;
 
@@ -44,22 +44,22 @@ begin : RECEIVE
     tx_enable <= `TX_ENABLE;
     // read all 8 data bits
     if(read_count < 8) begin
-      $display("received data bit %b",serial);
+      $display("received data bit %b",rx_in);
       read_count <= read_count + 1;
-      trans[write_count] <= serial; // write to output little-endian
+      rx_out[write_count] <= rx_in; // write to output (little-endian)
       write_count <= write_count + 1;
 
       //toggle parity bit every time a '1' is received
-      if(serial == 1) begin
+      if(rx_in == 1) begin
         parity <= ~parity;
       end
     end
 
     // after receiving 8 bits, check for valid parity bit
     else if (read_count == 8) begin 
-      $display("parity received: %b",serial);
-      if(serial != parity) begin
-        $display("Incorrect parity bit received! Received: %b | Expected: %b",serial,parity);
+      $display("parity received: %b",rx_in);
+      if(rx_in != parity) begin
+        $display("Incorrect parity bit received! Received: %b | Expected: %b",rx_in,parity);
         receiving <= 0;
       end
       read_count <= read_count + 1;
@@ -67,9 +67,9 @@ begin : RECEIVE
 
     //check for both positive end bits
     else if (read_count == 9 || read_count == 10) begin 
-      if (serial == 1) begin
+      if (rx_in == 1) begin
         stopped <= stopped + 1;
-        $display("received stop %b",serial);
+        $display("received stop %b",rx_in);
         if(stopped == 2) begin
           receiving <= 0;
           //tell the transmitter we're done getting data
@@ -87,7 +87,7 @@ begin : RECEIVE
   end
 
   //check for start bit
-  else if(serial == 1) begin
+  else if(rx_in == 1) begin
     $display("received start bit!");
     receiving <= 1;
   end

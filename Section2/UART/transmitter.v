@@ -1,37 +1,32 @@
-`define TX_ENABLE 1
-`define TX_DISABLE 0
-`define TX_FINISHED 2
-`define TX_ERROR -1
-module transmitter(clk,data,out,tx_enable);
+module transmitter(clk,tx_in,tx_out);
 //inputs
-input data;
+input tx_in;
 input clk;
-input tx_enable;
 
 //outputs
-output out;
+output tx_out;
 
 //input ports
-reg [7:0] data;
-wire clk;
-reg [1:0] tx_enable;
+reg [7:0] tx_in;
+reg clk;
 
 //output port
-wire out;
-reg [3:0] data_count;
+wire tx_out;
+reg [9:0] tx_out_frame;
 
+assign tx_out = 1;
 initial begin
   $display("transmitter is online!");
-  data_count = 0;
 end
 
-always @ (posedge clk) begin
-  if(tx_enable == `TX_ENABLE) begin
-    $display("transmitter received: %b",data);
-  end
-  if(tx_enable == `TX_FINISHED) begin
-    $display("transmitting data: %b",out);
-  end
+//always @ (posedge clk) begin
+  //tx_out <= 1; // hold high signal when idling
+//end
 
+always @ tx_in begin
+  $display("tx_in change! %b", tx_in);
+  tx_out_frame [8:1] = tx_in;
+  $display("transmitting %b",tx_out_frame);
 end
+
 endmodule

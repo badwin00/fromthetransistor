@@ -11,3 +11,5 @@ https://www.asic-world.com/examples/verilog/uart.html
 
 But the general idea is that the UART receives a low start bit, and then the data bits, and finally a parity bit followed by two high end bit. We'll keep the data bits limited to 8.
 While idling the UART stays high-voltage.
+
+I'm getting close to finishing the UART, and one of my biggest mistakes so far was writing the receiver first. I wanted to test whether or not my decoding worked first because that looked like the hardest part, but trying to interact with the receiver directly through the verilator c++ causes issues when mixing with the internal clock UARTs must have. UARTs expect to receive data through a specific baud rate, and figuring out how to emulate that is a waste of time. Lesson learned: UARTs should only ever receive from other UARTs.
